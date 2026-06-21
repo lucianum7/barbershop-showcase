@@ -1,0 +1,134 @@
+@import '@fontsource/bebas-neue/400.css';
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* superfícies (HSL channels p/ suporte a opacidade do Tailwind) */
+    --bg: 0 0% 2%;            /* #050505 */
+    --surface: 0 0% 4.3%;     /* #0B0B0B */
+    --surface-2: 0 0% 5.5%;   /* #0E0E0E */
+    --card: 0 0% 6.7%;        /* #111111 */
+    --border: 0 0% 11%;       /* #1C1C1C */
+    --foreground: 0 0% 95%;   /* #F2F2F2 */
+    --muted: 0 0% 56%;        /* #8F8F8F */
+    --muted-2: 0 0% 42%;      /* #6B6B6B */
+
+    /* accent dourado — TEMÁVEL em runtime (Configurações grava aqui) */
+    --accent: 46 64% 52%;     /* #D4AF37 */
+    --accent-hi: 44 74% 62%;  /* #E7C253 */
+    --accent-foreground: 0 0% 4%;
+
+    --success: 152 55% 45%;
+    --danger: 0 72% 56%;
+    --warning: 38 92% 55%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg font-sans text-foreground antialiased;
+    background-color: hsl(var(--bg));
+    /* brilho dourado superior + leve vinheta */
+    background-image:
+      radial-gradient(60rem 32rem at 50% -8rem, hsl(var(--accent) / 0.10), transparent 60%),
+      radial-gradient(40rem 40rem at 110% 0%, hsl(var(--accent) / 0.05), transparent 55%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.28);
+    color: hsl(var(--foreground));
+  }
+
+  /* scrollbar discreta */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(0 0% 18%);
+    border-radius: 9999px;
+    border: 2px solid hsl(var(--bg));
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--accent) / 0.5); }
+
+  h1, h2, h3, .font-display {
+    font-family: '"Bebas Neue"', 'Bebas Neue', Impact, sans-serif;
+  }
+}
+
+@layer components {
+  /* Título display com leve gradiente dourado */
+  .display {
+    @apply font-display uppercase leading-[0.92] tracking-wide;
+  }
+  .text-gold {
+    @apply bg-gold-text bg-clip-text text-transparent;
+  }
+
+  /* Painel/card padrão do sistema */
+  .panel {
+    @apply rounded-2xl border border-line bg-surface/80 backdrop-blur-sm;
+    box-shadow: var(--tw-shadow, 0 24px 60px -34px hsl(0 0% 0% / 0.85));
+  }
+
+  /* Borda em gradiente dourado (efeito "tech") */
+  .ring-gold {
+    position: relative;
+  }
+  .ring-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(140deg, hsl(var(--accent) / 0.55), transparent 40%, transparent 60%, hsl(var(--accent) / 0.25));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Rótulo pequeno em caixa alta com tracking — usado em todo o sistema */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-muted;
+  }
+
+  /* Chip de horário / tag */
+  .chip {
+    @apply inline-flex items-center justify-center rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-sm text-foreground/90 transition-colors;
+  }
+  .chip:hover {
+    @apply border-accent/40 text-accent;
+  }
+}
+
+@layer utilities {
+  /* Teia/grade técnica de fundo */
+  .bg-web {
+    background-image:
+      linear-gradient(hsl(var(--accent) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--accent) / 0.05) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 80%);
+    mask-image: radial-gradient(70% 60% at 50% 0%, #000 0%, transparent 80%);
+  }
+  .shimmer-gold {
+    background: linear-gradient(90deg, transparent, hsl(var(--accent) / 0.18), transparent);
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+  }
+}
